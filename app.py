@@ -10,7 +10,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent
 MODEL_PATH = BASE_DIR / "best_model_ft.pth"
 
-
 # Page config
 st.set_page_config(
     page_title="Plant Disease Detector",
@@ -73,12 +72,20 @@ if uploaded_file:
             probs = torch.softmax(outputs, dim=1)
             conf, pred = torch.max(probs, 1)
 
+        threshold = 0.75
         pred_class = class_names[pred.item()]
         confidence = conf.item() * 100
 
         st.markdown("### Result")
-        st.success(f"Prediction: **{pred_class}**")
-        st.info(f"Confidence: **{confidence:.2f}%**")
+
+        if conf.item() < threshold:
+            st.warning("This image does not look like any trained plant class.")
+            st.write("Please upload a clear image of one of these:")
+            for c in class_names:
+                st.write("-", c.replace("_", " "))
+        else:
+            st.success(f"Prediction: **{pred_class}**")
+            st.info(f"Confidence: **{confidence:.2f}%**")
 
     except Exception as e:
         st.error("Invalid image. Please upload a valid leaf image.")
