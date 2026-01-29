@@ -1,4 +1,5 @@
 # Plant Leaf Disease Detection with PyTorch
+Open the notebook here: https://nbviewer.org/github/the-noble-analyst/Plant-Leaf-Disease-Detection-with-PyTorch/blob/main/plant_disease_detector.ipynb
 
 ## Description
 
